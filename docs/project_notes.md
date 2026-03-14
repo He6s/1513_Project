@@ -92,3 +92,14 @@ Metrics on test set:
 
 ## Interpretation of baseline
 The naive baseline predicts only the majority class. This gives a weak but useful reference point for comparison with logistic regression and SVM.
+
+## Shared evaluation code
+Added `src/evaluate.py` as a shared helper for classification metrics.
+
+Metrics included:
+- accuracy
+- precision
+- recall
+- F1 score
+
+This should be reused by logistic regression and SVM so model comparisons remain consistent.

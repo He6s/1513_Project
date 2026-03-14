@@ -62,3 +62,16 @@ For logistic regression and SVM, use these split files:
 
 ## Important note
 Everyone should use the same split files so all models are compared fairly.
+
+## Shared evaluation helper
+A shared evaluation file is now available:
+
+- `src/evaluate.py`
+
+It computes these metrics:
+- accuracy
+- precision
+- recall
+- F1 score
+
+Teammates should reuse this file so all models are evaluated consistently.
