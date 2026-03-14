@@ -80,3 +80,15 @@ Completed:
 
 ## Current results files
 - `results/baseline_results.json`
+
+## Baseline results
+Model: naive baseline using most frequent class
+
+Metrics on test set:
+- Accuracy: 0.5333333333333333
+- Precision: 0.0
+- Recall: 0.0
+- F1 score: 0.0
+
+## Interpretation of baseline
+The naive baseline predicts only the majority class. This gives a weak but useful reference point for comparison with logistic regression and SVM.
