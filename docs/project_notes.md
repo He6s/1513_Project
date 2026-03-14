@@ -61,3 +61,22 @@ Completed:
 ## Current data files
 - `data/dataset_raw.csv`
 - `data/dataset_clean.csv`
+
+## Dataset split setup
+- Train test split created using `train_test_split`
+- Test size: 0.2
+- Random state: 42
+- Stratified split used on the target column
+
+## Saved split files
+- `data/splits/X_train.csv`
+- `data/splits/X_test.csv`
+- `data/splits/y_train.csv`
+- `data/splits/y_test.csv`
+
+## Naive baseline
+- Baseline model: `DummyClassifier(strategy="most_frequent")`
+- Purpose: provides a simple reference point before logistic regression and SVM
+
+## Current results files
+- `results/baseline_results.json`

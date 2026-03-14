@@ -1,9 +1,14 @@
 import pandas as pd
 from pathlib import Path
+from sklearn.model_selection import train_test_split
 
 
 RAW_DATA_PATH = "data/dataset_raw.csv"
 CLEAN_DATA_PATH = "data/dataset_clean.csv"
+SPLIT_DIR = "data/splits"
+
+RANDOM_STATE = 42
+TEST_SIZE = 0.2
 
 
 def load_data(filepath: str) -> pd.DataFrame:
@@ -38,9 +43,34 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+def split_data(df: pd.DataFrame):
+    X = df.drop(columns=["target"])
+    y = df["target"]
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        X,
+        y,
+        test_size=TEST_SIZE,
+        random_state=RANDOM_STATE,
+        stratify=y
+    )
+
+    return X_train, X_test, y_train, y_test
+
+
 def save_data(df: pd.DataFrame, filepath: str) -> None:
     Path(filepath).parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(filepath, index=False)
+
+
+def save_splits(X_train, X_test, y_train, y_test, split_dir: str) -> None:
+    split_path = Path(split_dir)
+    split_path.mkdir(parents=True, exist_ok=True)
+
+    X_train.to_csv(split_path / "X_train.csv", index=False)
+    X_test.to_csv(split_path / "X_test.csv", index=False)
+    y_train.to_frame(name="target").to_csv(split_path / "y_train.csv", index=False)
+    y_test.to_frame(name="target").to_csv(split_path / "y_test.csv", index=False)
 
 
 if __name__ == "__main__":
@@ -52,3 +82,12 @@ if __name__ == "__main__":
 
     save_data(clean_df, CLEAN_DATA_PATH)
     print(f"\nSaved cleaned dataset to: {CLEAN_DATA_PATH}")
+
+    X_train, X_test, y_train, y_test = split_data(clean_df)
+    save_splits(X_train, X_test, y_train, y_test, SPLIT_DIR)
+
+    print(f"\nSaved split files to: {SPLIT_DIR}")
+    print(f"X_train shape: {X_train.shape}")
+    print(f"X_test shape: {X_test.shape}")
+    print(f"y_train shape: {y_train.shape}")
+    print(f"y_test shape: {y_test.shape}")
