@@ -141,3 +141,36 @@ Working notes
 
 Teammate handoff
 - `docs/teammate_handoff.md`
+
+## Project task checklist
+
+### Completed tasks
+- Downloaded the raw dataset
+- Inspected dataset shape, columns, and missing values
+- Identified missing values in `ca` and `thal`
+- Cleaned the dataset by dropping rows with missing values
+- Converted the original target column `num` into the binary target column `target`
+- Created a train test split
+- Saved split files as
+  - `data/splits/X_train.csv`
+  - `data/splits/X_test.csv`
+  - `data/splits/y_train.csv`
+  - `data/splits/y_test.csv`
+- Implemented a naive baseline using the most frequent class
+- Evaluated the naive baseline and saved the results
+
+### To do
+- Implement logistic regression training and evaluation
+- Implement SVM training and evaluation
+- Tune model hyperparameters if needed
+- Compare logistic regression, SVM, and baseline results
+- Save final result files for all models
+- Create figures or tables for model comparison
+- Make sure the full codebase is clean and well documented
+- Check that the project runs correctly on teammates' computers
+- Finalize the README if more files or steps are added
+- Prepare the final report using the provided template
+- Write the report sections based on the finished code and results
+- Add dataset citation and other references to the report
+- Complete teamwork attestation, AI usage, and consent sections
+- Prepare the final presentation
