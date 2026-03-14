@@ -50,10 +50,12 @@ Missing value handling
     teammate_handoff.md
   results/
     baseline_results.json
+    evaluate_test_results.json
   src/
     download_dataset.py
     preprocess.py
     baseline.py
+    evaluate.py
   notebooks/
   README.md
   requirements.txt
@@ -145,11 +147,14 @@ Teammate handoff
 ## Project task checklist
 
 ### Completed tasks
+- Chose the project topic of heart disease prediction
+- Selected the UCI Heart Disease dataset
 - Downloaded the raw dataset
 - Inspected dataset shape, columns, and missing values
 - Identified missing values in `ca` and `thal`
 - Cleaned the dataset by dropping rows with missing values
 - Converted the original target column `num` into the binary target column `target`
+- Saved the cleaned dataset as `data/dataset_clean.csv`
 - Created a train test split
 - Saved split files as
   - `data/splits/X_train.csv`
@@ -158,6 +163,10 @@ Teammate handoff
   - `data/splits/y_test.csv`
 - Implemented a naive baseline using the most frequent class
 - Evaluated the naive baseline and saved the results
+- Added a shared evaluation helper for consistent model metrics
+- Created project documentation notes
+- Created a teammate handoff file
+- Updated the README with setup and usage instructions
 
 ### To do
 - Implement logistic regression training and evaluation
