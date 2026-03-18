@@ -1,60 +1,67 @@
 # ECE1513 Final Project
 
-Machine learning final project on heart disease prediction.
+Machine learning final project on cardiovascular disease prediction.
 
-## Project overview
+## Project Overview
 
-This project uses the UCI Heart Disease dataset to build and compare machine learning models for binary heart disease prediction.
+This project uses the Kaggle Cardiovascular Disease Dataset (~70,000 records) to build and compare machine learning models for binary heart disease prediction.
+Previous experiments with the small UCI dataset (~300 records) showed performance saturation. The project was pivoted to this larger dataset to enable robust feature engineering and evaluation.
 
-Current progress
-- dataset downloaded
-- raw data inspected
-- missing values handled
-- target converted to binary
-- train test split created
-- naive baseline completed
+## Key Achievements
+- **Data Pipeline**: End-to-end cleaning, outlier removal, and stratification.
+- **Feature Engineering**: Integration of medical metrics (BMI, Pulse Pressure, MAP) and interaction terms.
+- **Model Comparison**: Rigorous evaluation of Logistic Regression, Linear SVM, and XGBoost using 5-Fold Cross-Validation.
+- **Explainability**: SHAP analysis to transparency in model decisions.
 
-## Dataset
-
-Dataset used
-- UCI Heart Disease dataset
-
-Working data files
-- `data/dataset_raw.csv`
-- `data/dataset_clean.csv`
-
-Target definition
-- original target column was `num`
-- new binary target column is `target`
-- `0` means no heart disease
-- `1` means heart disease present
-
-Missing value handling
-- rows with missing values were dropped
-- missing values were originally found in `ca` and `thal`
-
-## Project structure
+## Project Structure
 
 ```text
 1513_Project/
   data/
-    dataset_raw.csv
-    dataset_clean.csv
-    splits/
-      X_train.csv
-      X_test.csv
-      y_train.csv
-      y_test.csv
+    cardio_train.csv        # Original Kaggle dataset
+    dataset_clean.csv       # Preprocessed dataset
+    splits/                 # Train/Test splits (80/20)
   docs/
-    project_notes.md
-    teammate_handoff.md
+    project_notes.md        # Detailed experiment notes & final report data
+    teammate_handoff.md     # Setup instructions
   results/
-    baseline_results.json
-    evaluate_test_results.json
+    baseline_results.json   # Dummy classifier results
+    cv_results.json         # 5-Fold Cross-Validation metrics
+    plots/                  # ROC curves, Confusion Matrices, SHAP plots
   src/
-    download_dataset.py
-    preprocess.py
-    baseline.py
+    preprocess.py           # Data cleaning & Feature Engineering
+    train_*.py              # Individual model training scripts
+    evaluate_cv.py          # 5-Fold Cross-Validation script
+    evaluate_comparison.py  # Model comparison & plotting
+    explainability.py       # SHAP analysis 
+```
+
+## How to Run
+
+1. **Install Dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+2. **Run Pipeline**:
+   The `preprocess.py` script will clean data and generate splits.
+   ```bash
+   python src/preprocess.py
+   ```
+
+3. **Train & Evaluate**:
+   Run the cross-validation script to see the final model performance.
+   ```bash
+   python src/evaluate_cv.py
+   ```
+
+4. **Generate Plots**:
+   Create ROC curves, Confusion Matrices, and SHAP plots.
+   ```bash
+   python src/evaluate_comparison.py
+   python src/explainability.py
+   ```
+
     evaluate.py
   notebooks/
   README.md

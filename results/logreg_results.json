@@ -1,0 +1,51 @@
+{
+    "model": "logistic_regression_tuned",
+    "metrics": {
+        "accuracy": 0.7201512695840087,
+        "precision": 0.7435939553219448,
+        "recall": 0.6867415048543689,
+        "f1_score": 0.7140378548895899
+    },
+    "top_features": [
+        {
+            "feature": "cholesterol",
+            "coefficient": 0.9810488207507329
+        },
+        {
+            "feature": "ap_hi",
+            "coefficient": 0.8026102605060432
+        },
+        {
+            "feature": "age_chol_interaction",
+            "coefficient": -0.7000990669461332
+        },
+        {
+            "feature": "age",
+            "coefficient": 0.48525487131832823
+        },
+        {
+            "feature": "map",
+            "coefficient": 0.22634548897358803
+        },
+        {
+            "feature": "weight",
+            "coefficient": 0.11422015407342351
+        },
+        {
+            "feature": "gluc",
+            "coefficient": -0.08432582490109404
+        },
+        {
+            "feature": "active",
+            "coefficient": -0.07433417093746081
+        },
+        {
+            "feature": "alco",
+            "coefficient": -0.06443541831320697
+        },
+        {
+            "feature": "bmi",
+            "coefficient": 0.04070481006726556
+        }
+    ]
+}
