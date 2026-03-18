@@ -62,22 +62,17 @@ Previous experiments with the small UCI dataset (~300 records) showed performanc
    python src/explainability.py
    ```
 
-    evaluate.py
-  notebooks/
-  README.md
-  requirements.txt
-```
 
 ## Environment setup
 
-### 1. Create and activate the conda environment
+### Create and activate the conda environment
 
 ```bash
 conda create -n ece1513proj python=3.9 -y
 conda activate ece1513proj
 ```
 
-### 2. Install dependencies
+### Install dependencies
 
 ```bash
 python -m pip install -r requirements.txt
