@@ -75,7 +75,6 @@ Create and activate the conda environment
 ```bash
 conda create -n ece1513proj python=3.9 -y
 conda activate ece1513proj
-```
 
 Install dependencies
 
