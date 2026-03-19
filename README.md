@@ -72,27 +72,51 @@ Aligned with the course requirement to "refine a solution", we demonstrated how 
 
 ## How to Run
 
-1. **Install Dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
+### 1. Environment Setup
 
-2. **Preprocess Data**:
-   Cleans raw data and generates the engineered features (`BMI`, `MAP`, etc.).
-   ```bash
-   python src/preprocess.py
-   ```
+**Option A: Using `requirements.txt` (Pip)**
+This project requires Python 3.9+.
+```bash
+# Create a virtual environment (Recommended)
+python -m venv venv
+# Activate it (Windows)
+.\venv\Scripts\activate
+# Activate it (Mac/Linux)
+source venv/bin/activate
 
-3. **Validation (5-Fold CV)**:
-   Runs the rigorous evaluation suite and prints final accuracy/F1 scores.
-   ```bash
-   python src/evaluate_cv.py
-   ```
+# Install dependencies
+pip install -r requirements.txt
+```
 
-4. **Generate Plots**:
-   Creates the ROC curves and SHAP explanation plots found in `results/plots/`.
-   ```bash
-   python src/evaluate_comparison.py
-   python src/explainability.py
-   ```
+**Option B: Using Conda**
+```bash
+conda create -n ece1513proj python=3.9 -y
+conda activate ece1513proj
+pip install -r requirements.txt
+```
+
+### 2. Execution Steps
+
+1.  **Download & Preprocess Data**:
+    This script loads `data/cardio_train.csv`, cleans outliers, engineers features (`BMI`, `MAP`), and generates train/test splits.
+    ```bash
+    python src/preprocess.py
+    ```
+    *Output*: `data/dataset_clean.csv`, `data/splits/*.csv`
+
+2.  **Run 5-Fold Cross-Validation (Main Evaluation)**:
+    Runs the full validation suite on LogReg, SVM, and XGBoost.
+    ```bash
+    python src/evaluate_cv.py
+    ```
+    *Output*: `results/cv_results.json` and console metrics.
+
+3.  **Generate Report Figures**:
+    Create ROC curves, Confusion Matrices, and SHAP explanation plots.
+    ```bash
+    python src/evaluate_comparison.py
+    python src/explainability.py
+    ```
+    *Output*: `results/plots/*.png`
+
 
