@@ -1,0 +1,46 @@
+[
+    {
+        "Model": "Baseline",
+        "Accuracy Mean": 0.5087164455414995,
+        "Accuracy Std": 0.0,
+        "Precision Mean": 0.5087164455414995,
+        "Precision Std": 0.0,
+        "Recall Mean": 1.0,
+        "Recall Std": 0.0,
+        "F1-Score Mean": 0.6743698553095763,
+        "F1-Score Std": 1.1702778228589004e-16
+    },
+    {
+        "Model": "Logistic Regression",
+        "Accuracy Mean": 0.7221073742672014,
+        "Accuracy Std": 0.0018705359239159526,
+        "Precision Mean": 0.7468438998209115,
+        "Precision Std": 0.0039039944516809063,
+        "Recall Mean": 0.6864746019711904,
+        "Recall Std": 0.005295750752939357,
+        "F1-Score Mean": 0.7153655910777456,
+        "F1-Score Std": 0.0021943096786861955
+    },
+    {
+        "Model": "SVM (Linear)",
+        "Accuracy Mean": 0.7216985498302992,
+        "Accuracy Std": 0.0021044638517810524,
+        "Precision Mean": 0.7451135337822972,
+        "Precision Std": 0.0038474968679311538,
+        "Recall Mean": 0.6884912812736922,
+        "Recall Std": 0.005347189270875817,
+        "F1-Score Mean": 0.7156633245419078,
+        "F1-Score Std": 0.0024489021960601353
+    },
+    {
+        "Model": "XGBoost",
+        "Accuracy Mean": 0.7294662141314409,
+        "Accuracy Std": 0.002222226876493067,
+        "Precision Mean": 0.7534009423110568,
+        "Precision Std": 0.004234296243909356,
+        "Recall Mean": 0.6961031084154663,
+        "Recall Std": 0.007108773113215635,
+        "F1-Score Mean": 0.723586039164207,
+        "F1-Score Std": 0.0030621088726951276
+    }
+]
