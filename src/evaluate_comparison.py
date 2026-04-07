@@ -16,13 +16,15 @@ from xgboost import XGBClassifier
 DATA_PATH = "data/dataset_clean.csv"
 RESULTS_PATH = "results/comparison_metrics.json"
 
+#10 seeds
 SEEDS = [42, 43, 44, 45, 46, 47, 48, 49, 50, 51]
 TEST_SIZE = 0.2
 
 
 def load_data():
-    print("Loading full cleaned dataset...")
+    print("dataset with feature engineering")
     df = pd.read_csv(DATA_PATH)
+    #split into input and target
     X = df.drop(columns=["cardio"])
     y = df["cardio"]
     print(f"Dataset shape: {df.shape}")
@@ -32,6 +34,7 @@ def load_data():
 def get_models(seed):
     baseline = DummyClassifier(strategy="most_frequent")
 
+    #logistic regression with scaling
     logreg = Pipeline([
         ("scaler", StandardScaler()),
         ("clf", LogisticRegression(
@@ -43,6 +46,7 @@ def get_models(seed):
         ))
     ])
 
+    #base linear svm
     svm_linear = LinearSVC(
         C=1,
         penalty="l2",
@@ -50,11 +54,12 @@ def get_models(seed):
         random_state=seed,
         max_iter=2000
     )
+    #scale first then calibrate svm
     svm = Pipeline([
         ("scaler", StandardScaler()),
         ("clf", CalibratedClassifierCV(svm_linear, cv=5))
     ])
-
+    #tuned xgboost
     xgboost = XGBClassifier(
         colsample_bytree=0.8,
         learning_rate=0.05,
@@ -76,8 +81,9 @@ def get_models(seed):
 
 
 def evaluate_over_seeds(X, y):
+    #metrics to track
     metric_names = ["Accuracy", "Precision", "Recall", "F1-Score"]
-
+    #store scores for each model
     all_results = {
         "Baseline": {m: [] for m in metric_names},
         "Logistic Regression": {m: [] for m in metric_names},
@@ -87,6 +93,7 @@ def evaluate_over_seeds(X, y):
 
     for seed in SEEDS:
         print(f"\nRunning seed {seed}...")
+        #new train test split
         X_train, X_test, y_train, y_test = train_test_split(
             X,
             y,
@@ -114,6 +121,7 @@ def evaluate_over_seeds(X, y):
     print("-" * 110)
 
     for name, metrics in all_results.items():
+        #average everything across seeds
         row = {
             "Model": name,
             "Accuracy Mean": float(np.mean(metrics["Accuracy"])),

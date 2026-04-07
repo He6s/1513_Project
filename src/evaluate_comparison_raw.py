@@ -20,10 +20,11 @@ TEST_SIZE = 0.2
 
 
 def load_data():
-    print("Loading and cleaning raw dataset without feature engineering...")
+    print("raw dataset without feature engineering")
     df_raw = load_raw_data(RAW_DATA_PATH)
     df_clean = clean_data(df_raw)
 
+    #split to features and target
     X = df_clean.drop(columns=["cardio"])
     y = df_clean["cardio"]
 
@@ -35,6 +36,7 @@ def load_data():
 def get_models(seed):
     baseline = DummyClassifier(strategy="most_frequent")
 
+    #logistic regression with scaling
     logreg = Pipeline([
         ("scaler", StandardScaler()),
         ("clf", LogisticRegression(
@@ -46,6 +48,7 @@ def get_models(seed):
         ))
     ])
 
+    #base linear svm
     svm_linear = LinearSVC(
         C=1,
         penalty="l2",
@@ -53,11 +56,13 @@ def get_models(seed):
         random_state=seed,
         max_iter=2000
     )
+    #scale first then calibrate svm
     svm = Pipeline([
         ("scaler", StandardScaler()),
         ("clf", CalibratedClassifierCV(svm_linear, cv=5))
     ])
 
+    #tuned xgboost
     xgboost = XGBClassifier(
         colsample_bytree=0.8,
         learning_rate=0.05,
@@ -90,6 +95,7 @@ def evaluate_over_seeds(X, y):
 
     for seed in SEEDS:
         print(f"\nRunning seed {seed}...")
+        #train test split for this seed
         X_train, X_test, y_train, y_test = train_test_split(
             X,
             y,
@@ -117,6 +123,7 @@ def evaluate_over_seeds(X, y):
     print("-" * 110)
 
     for name, metrics in all_results.items():
+        #average results across all seeds
         row = {
             "Model": name,
             "Accuracy Mean": float(np.mean(metrics["Accuracy"])),

@@ -9,23 +9,22 @@ from sklearn.calibration import CalibratedClassifierCV
 from sklearn.model_selection import cross_validate, StratifiedKFold
 from xgboost import XGBClassifier
 
-# Constants
 X_TRAIN_PATH = "data/splits/X_train.csv"
 Y_TRAIN_PATH = "data/splits/y_train.csv"
 RESULTS_PATH = "results/cv_results.json"
 
+#10 random seeds
 SEEDS = [42, 43, 44, 45, 46, 47, 48, 49, 50, 51]
 N_SPLITS = 5
 
 def load_train_data():
-    print("Loading training data...")
     X_train = pd.read_csv(X_TRAIN_PATH)
     y_train = pd.read_csv(Y_TRAIN_PATH)["target"]
     return X_train, y_train
 
 def get_models():
-    """Return models with best parameters."""
-    
+
+    #logsitic regression with scaling
     logreg = Pipeline([
         ("scaler", StandardScaler()),
         ("clf", LogisticRegression(
@@ -37,6 +36,7 @@ def get_models():
         ))
     ])
 
+    #base linear svm
     svm_linear = LinearSVC(
         C=1,
         penalty="l2",
@@ -44,11 +44,14 @@ def get_models():
         random_state=42,
         max_iter=2000
     )
+
+    #scale then calibrate svm
     svm = Pipeline([
         ("scaler", StandardScaler()),
         ("clf", CalibratedClassifierCV(svm_linear, cv=5))
     ])
 
+    #tuned xgboost model
     xgboost = XGBClassifier(
         colsample_bytree=0.8,
         learning_rate=0.05,
@@ -68,7 +71,7 @@ def get_models():
     }
 
 def run_cv_evaluation(X, y, models):
-    """Run 5-fold CV for 10 different seeds, then average across seeds."""
+
     results = {}
     scoring = ["accuracy", "precision", "recall", "f1"]
 
@@ -78,15 +81,18 @@ def run_cv_evaluation(X, y, models):
     print("-" * 60)
 
     for name, model in models.items():
+
+        #scores from each seed
         per_seed_scores = {metric: [] for metric in scoring}
 
         for seed in SEEDS:
+            #new 5 fold split for this seed
             cv = StratifiedKFold(
                 n_splits=N_SPLITS,
                 shuffle=True,
                 random_state=seed
             )
-
+            #cross validation
             scores = cross_validate(
                 model,
                 X,
@@ -98,12 +104,14 @@ def run_cv_evaluation(X, y, models):
 
             for metric in scoring:
                 key = f"test_{metric}"
+
+                #getting the average score from seed
                 per_seed_scores[metric].append(scores[key].mean())
 
         model_results = {}
         for metric in scoring:
             values = np.array(per_seed_scores[metric], dtype=float)
-            mean_score = float(values.mean())
+            mean_score = float(values.mean()) #final mean
             std_score = float(values.std(ddof=1))
 
             model_results[metric] = {
