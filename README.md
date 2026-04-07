@@ -5,7 +5,7 @@ This repository contains our final ECE1513 course project on cardiovascular dise
 ## Repository contents
 
 - `data/`
-  - `cardio_train.csv`: raw Kaggle dataset
+  - `cardio_train.csv`: raw Kaggle dataset included in the repository
   - `dataset_clean.csv`: cleaned dataset with engineered features
   - `splits/`: generated train and test split files for the engineered-feature pipeline
 - `src/`
@@ -15,8 +15,8 @@ This repository contains our final ECE1513 course project on cardiovascular dise
   - `train_svm.py`: linear SVM training
   - `train_xgboost.py`: XGBoost training
   - `evaluate.py`: shared evaluation helper
-  - `evaluate_comparison.py`: 10-seed hold-out comparison with engineered features
   - `evaluate_comparison_raw.py`: 10-seed hold-out comparison without feature engineering
+  - `evaluate_comparison.py`: 10-seed hold-out comparison with engineered features
   - `evaluate_cv.py`: final repeated cross-validation evaluation for the engineered-feature pipeline
   - `explainability.py`: SHAP-based model interpretation
 - `results/`
@@ -28,7 +28,7 @@ This repository contains our final ECE1513 course project on cardiovascular dise
   - `project_notes.md`: short project summary
   - `teammate_handoff.md`: quick run guide
 - `requirements.txt`: required Python packages
-- `demo.sh`: demo script for sample input-output
+- `demo.sh`: demo script showing sample input-output
 
 ## Method summary
 
