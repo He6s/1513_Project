@@ -14,6 +14,9 @@ X_TRAIN_PATH = "data/splits/X_train.csv"
 Y_TRAIN_PATH = "data/splits/y_train.csv"
 RESULTS_PATH = "results/cv_results.json"
 
+SEEDS = [42, 43, 44, 45, 46, 47, 48, 49, 50, 51]
+N_SPLITS = 5
+
 def load_train_data():
     print("Loading training data...")
     X_train = pd.read_csv(X_TRAIN_PATH)
@@ -23,23 +26,29 @@ def load_train_data():
 def get_models():
     """Return models with best parameters."""
     
-    # 1. Logistic Regression
-    # Best: C=1, penalty='l1'
     logreg = Pipeline([
-        ('scaler', StandardScaler()),
-        ('clf', LogisticRegression(C=1, penalty='l1', solver='saga', max_iter=5000, random_state=42))
+        ("scaler", StandardScaler()),
+        ("clf", LogisticRegression(
+            C=1,
+            penalty="l1",
+            solver="saga",
+            max_iter=5000,
+            random_state=42
+        ))
     ])
 
-    # 2. Linear SVM (Calibrated)
-    # Best: C=1, penalty='l2'
-    svm_linear = LinearSVC(C=1, penalty='l2', dual=False, random_state=42, max_iter=2000)
+    svm_linear = LinearSVC(
+        C=1,
+        penalty="l2",
+        dual=False,
+        random_state=42,
+        max_iter=2000
+    )
     svm = Pipeline([
-        ('scaler', StandardScaler()),
-        ('clf', CalibratedClassifierCV(svm_linear, cv=5)) 
+        ("scaler", StandardScaler()),
+        ("clf", CalibratedClassifierCV(svm_linear, cv=5))
     ])
 
-    # 3. XGBoost
-    # Best: colsample_bytree=0.8, learning_rate=0.05, max_depth=4, min_child_weight=3, n_estimators=200, subsample=1.0
     xgboost = XGBClassifier(
         colsample_bytree=0.8,
         learning_rate=0.05,
@@ -47,8 +56,9 @@ def get_models():
         min_child_weight=3,
         n_estimators=200,
         subsample=1.0,
-        eval_metric='logloss',
-        random_state=42
+        eval_metric="logloss",
+        random_state=42,
+        n_jobs=1
     )
 
     return {
@@ -58,39 +68,54 @@ def get_models():
     }
 
 def run_cv_evaluation(X, y, models):
-    """Run 5-Fold Cross-Validation."""
+    """Run 5-fold CV for 10 different seeds, then average across seeds."""
     results = {}
-    
-    # Stratified K-Fold ensures class distribution is preserved
-    cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
-    
-    scoring = ['accuracy', 'precision', 'recall', 'f1']
+    scoring = ["accuracy", "precision", "recall", "f1"]
 
-    print("\nRunning 5-Fold Cross-Validation...")
+    print("\nRunning 5-fold CV averaged over 10 seeds...")
+    print(f"Seeds used: {SEEDS}")
     print(f"{'Model':<20} | {'Metric':<10} | {'Mean':<8} | {'Std Dev':<8}")
     print("-" * 60)
 
     for name, model in models.items():
-        # cross_validate returns a dict with 'test_score', 'fit_time', etc.
-        # But since we passed a list of metrics, it returns 'test_accuracy', 'test_precision', etc.
-        scores = cross_validate(model, X, y, cv=cv, scoring=scoring, n_jobs=-1)
-        
+        per_seed_scores = {metric: [] for metric in scoring}
+
+        for seed in SEEDS:
+            cv = StratifiedKFold(
+                n_splits=N_SPLITS,
+                shuffle=True,
+                random_state=seed
+            )
+
+            scores = cross_validate(
+                model,
+                X,
+                y,
+                cv=cv,
+                scoring=scoring,
+                n_jobs=-1
+            )
+
+            for metric in scoring:
+                key = f"test_{metric}"
+                per_seed_scores[metric].append(scores[key].mean())
+
         model_results = {}
         for metric in scoring:
-            key = f"test_{metric}"
-            mean_score = scores[key].mean()
-            std_score = scores[key].std()
-            
+            values = np.array(per_seed_scores[metric], dtype=float)
+            mean_score = float(values.mean())
+            std_score = float(values.std(ddof=1))
+
             model_results[metric] = {
                 "mean": mean_score,
                 "std": std_score
             }
-            
+
             print(f"{name:<20} | {metric:<10} | {mean_score:.4f}   | {std_score:.4f}")
-        
+
         results[name] = model_results
         print("-" * 60)
-            
+
     return results
 
 def save_results(results):

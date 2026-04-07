@@ -1,30 +1,46 @@
 [
     {
         "Model": "Baseline",
-        "Accuracy": 0.5087597437678475,
-        "Precision": 0.5087597437678475,
-        "Recall": 1.0,
-        "F1-Score": 0.6744078981022047
+        "Accuracy Mean": 0.5087597437678475,
+        "Accuracy Std": 0.0,
+        "Precision Mean": 0.5087597437678475,
+        "Precision Std": 0.0,
+        "Recall Mean": 1.0,
+        "Recall Std": 0.0,
+        "F1-Score Mean": 0.6744078981022047,
+        "F1-Score Std": 0.0
     },
     {
         "Model": "Logistic Regression",
-        "Accuracy": 0.7201512695840087,
-        "Precision": 0.7435939553219448,
-        "Recall": 0.6867415048543689,
-        "F1-Score": 0.7140378548895899
+        "Accuracy Mean": 0.7211159990738596,
+        "Accuracy Std": 0.003060273061457026,
+        "Precision Mean": 0.7429266741198061,
+        "Precision Std": 0.0048612782919317254,
+        "Recall Mean": 0.6909739077669903,
+        "Recall Std": 0.003400713453017168,
+        "F1-Score Mean": 0.7159959428246905,
+        "F1-Score Std": 0.0025662993307052793
     },
     {
         "Model": "SVM (Linear)",
-        "Accuracy": 0.7190707725553754,
-        "Precision": 0.7399219765929779,
-        "Recall": 0.6905339805825242,
-        "F1-Score": 0.714375392341494
+        "Accuracy Mean": 0.7207301072779193,
+        "Accuracy Std": 0.0032861530701671607,
+        "Precision Mean": 0.7404860326817101,
+        "Precision Std": 0.004961447166053908,
+        "Recall Mean": 0.6945236650485438,
+        "Recall Std": 0.003373233709957013,
+        "F1-Score Mean": 0.7167566398548513,
+        "F1-Score Std": 0.00279061283989577
     },
     {
         "Model": "XGBoost",
-        "Accuracy": 0.7291039592498263,
-        "Precision": 0.7578647925033467,
-        "Recall": 0.6870449029126213,
-        "F1-Score": 0.7207192870782941
+        "Accuracy Mean": 0.7293740835069847,
+        "Accuracy Std": 0.002813513181614439,
+        "Precision Mean": 0.7545099360935048,
+        "Precision Std": 0.005162242231420516,
+        "Recall Mean": 0.6939016990291262,
+        "Recall Std": 0.006010294347641006,
+        "F1-Score Mean": 0.7229081615469181,
+        "F1-Score Std": 0.002898202823001302
     }
 ]
