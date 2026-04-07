@@ -14,13 +14,15 @@ conda activate ece1513proj
 pip install -r requirements.txt
 Quick run
 python src/preprocess.py
+python src/evaluate_comparison_raw.py
 python src/evaluate_comparison.py
 python src/evaluate_cv.py
 python src/explainability.py
 Output files
+results/comparison_metrics_raw.json
 results/comparison_metrics.json
 results/cv_results.json
 results/plots/
 Final model summary
 
-XGBoost is the best overall model, with only a small margin over logistic regression and linear SVM after feature engineering.
+All learned models outperform the baseline. Under 10-seed hold-out evaluation, feature engineering has only a marginal effect overall.
