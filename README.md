@@ -26,7 +26,7 @@ This repository contains our final ECE1513 course project on cardiovascular dise
   - `plots/`: representative ROC, confusion matrix, and SHAP figures used for the report
 - `docs/`
   - `project_notes.md`: short project summary
-  - `teammate_handoff.md`: quick run guide
+  - `project_handoff.md`: quick run guide
 - `requirements.txt`: required Python packages
 - `demo.sh`: demo script showing sample input-output
 
