@@ -1,122 +1,106 @@
 # ECE1513 Project: Cardiovascular Disease Prediction
-
-An end-to-end machine learning pipeline for binary classification of cardiovascular disease using the Kaggle dataset (~70,000 records).
-
-## Project Status
-**Status:** ✅ Completed
-**Current Version:** Final Submission (v2.0)
-
-### Completed Tasks checklist
-**Data Preparation**
-- [x] Chose project topic: Cardiovascular Disease Prediction (Kaggle Dataset)
-- [x] Downloaded raw `cardio_train.csv` (~70k records).
-- [x] Inspected dataset shape, columns, and missing values.
-- [x] Identified outliers (e.g., negative blood pressure, extreme BMI).
-- [x] Cleaned dataset by dropping physiological impossibilities.
-- [x] Converted `age` from days to years.
-- [x] Saved cleaned dataset as `data/dataset_clean.csv`.
-- [x] Created stratified 80/20 train-test split (`data/splits/`).
-
-**Model Implementation (The Improvement Process)**
-- [x] Implemented Naive Baseline (Majority Class) -> **50.87% Acc**.
-- [x] Implemented Logistic Regression (Linear Baseline).
-- [x] Implemented Linear SVM.
-- [x] **Refinement 1**: Implemented **XGBoost** (Advanced Non-Linear Model).
-- [x] **Refinement 2**: Feature Engineering (`BMI`, `MAP`, Interactions).
-
-**Evaluation & Finalization**
-- [x] Tuned model hyperparameters using GridSearchCV (F1-Score).
-- [x] Compared Logistic Regression, SVM, XGBoost, and Baseline results.
-- [x] Saved final metrics to `results/cv_results.json`.
-- [x] Created figures (ROC Curves, Confusion Matrices, SHAP plots) for report.
-- [x] Verified codebase runs reproducibly on teammates' machines.
-- [x] Finalized README with setup instructions.
-- [x] Prepared final report sections (Methodology, Results, Conclusion) in `docs/project_notes.md`.
-
-## Key Findings: The Improvement Process
-
-Aligned with the course requirement to "refine a solution", we demonstrated how **Algorithm Complexity** and **Domain Engineering** independently improve upon a naive baseline.
-
-| Experiment Phase | Logistic Regression (Linear) | XGBoost (Non-Linear Tree) | Insight |
-|------------------|------------------------------|---------------------------|---------|
-| **Phase 1: Naive** | **50.87%** (Baseline) | N/A | Dataset is perfectly balanced; random chance is ~50%. |
-| **Phase 2: Raw Features** | ~72.43% Accuracy | ~73.05% Accuracy | **Algorithmic Improvement**: Tree model naturally captures non-linearities (e.g., Weight/Height interaction). |
-| **Phase 3: Engineered Features** | **72.55% Accuracy** | **73.11% Accuracy** | **Domain Improvement**: Explicitly creating `BMI` and `MAP` linearizes the problem, allowing simple models to catch up. |
-
-**Conclusion**: Domain-driven feature engineering "linearized" the decision boundary, making computationally cheaper models (LogReg) nearly as effective as complex ones (XGBoost).
-
-## Project Structure
-
-```text
-1513_Project/
-  data/
-    cardio_train.csv        # Raw Kaggle dataset
-    dataset_clean.csv       # Preprocessed dataset (generated)
-    splits/                 # Train/Test splits (80/20)
-  docs/
-    project_notes.md        # Detailed experiment log & discussion for report
-    teammate_handoff.md     # Quick start guide
-  results/
-    cv_results.json         # Final 5-Fold Evaluation Metrics
-    comparison_metrics.json # Model comparisons
-    plots/                  # ROC, Confusion Matrices, SHAP plots
-  src/
-    preprocess.py           # Cleaning, Outlier Removal & Feature Engineering
-    train_logreg.py         # Logistic Regression training script
-    train_svm.py            # Linear SVM training script
-    train_xgboost.py        # XGBoost training script
-    evaluate_cv.py          # Main 5-Fold Cross-Validation Script
-    evaluate_comparison.py  # Generates ROC/CM plots
-    explainability.py       # Generates SHAP explainability plots
-```
-
-## How to Run
-
-### 1. Environment Setup
-
-**Option A: Using `requirements.txt` (Pip)**
-This project requires Python 3.9+.
-```bash
-# Create a virtual environment (Recommended)
-python -m venv venv
-# Activate it (Windows)
-.\venv\Scripts\activate
-# Activate it (Mac/Linux)
-source venv/bin/activate
-
-# Install dependencies
-pip install -r requirements.txt
-```
-
-**Option B: Using Conda**
-```bash
-conda create -n ece1513proj python=3.9 -y
-conda activate ece1513proj
-pip install -r requirements.txt
-```
-
-### 2. Execution Steps
-
-1.  **Download & Preprocess Data**:
-    This script loads `data/cardio_train.csv`, cleans outliers, engineers features (`BMI`, `MAP`), and generates train/test splits.
-    ```bash
+ 
+This repository contains our final ECE1513 course project on cardiovascular disease prediction using the Kaggle cardiovascular disease dataset.
+ 
+## Repository contents
+ 
+- `data/`
+  - `cardio_train.csv`: raw Kaggle dataset
+  - `dataset_clean.csv`: cleaned dataset after preprocessing
+  - `splits/`: generated train and test split files
+- `src/`
+  - `preprocess.py`: data cleaning and feature engineering
+  - `baseline.py`: naive majority-class baseline
+  - `train_logreg.py`: logistic regression training
+  - `train_svm.py`: linear SVM training
+  - `train_xgboost.py`: XGBoost training
+  - `evaluate.py`: shared evaluation helper
+  - `evaluate_comparison.py`: 10-seed hold-out comparison
+  - `evaluate_cv.py`: final repeated cross-validation evaluation
+  - `explainability.py`: SHAP-based model interpretation
+- `results/`
+  - `comparison_metrics.json`: 10-seed averaged hold-out metrics
+  - `cv_results.json`: final repeated cross-validation metrics
+  - `plots/`: ROC, confusion matrix, and SHAP figures
+- `docs/`
+  - `project_notes.md`: short project summary
+  - `teammate_handoff.md`: quick run guide
+- `requirements.txt`: required Python packages
+- `demo.sh`: demo script for sample input-output
+ 
+## Method summary
+ 
+We treated cardiovascular disease prediction as a binary classification problem. The pipeline includes:
+- data cleaning
+- feature engineering
+- logistic regression
+- linear SVM
+- XGBoost
+- evaluation over 10 random seeds
+- SHAP-based explainability
+ 
+Engineered features include:
+- BMI
+- pulse pressure
+- mean arterial pressure
+- age-cholesterol interaction
+ 
+## Final results
+ 
+### 10-seed averaged hold-out comparison
+- Baseline: 50.88% ± 0.00%
+- Logistic Regression: 72.11% ± 0.31%
+- SVM linear: 72.07% ± 0.33%
+- XGBoost: 72.94% ± 0.28%
+ 
+### Final repeated cross-validation results
+- Logistic Regression: accuracy 0.7246, F1 0.7198
+- SVM linear: accuracy 0.7242, F1 0.7204
+- XGBoost: accuracy 0.7313, F1 0.7246
+ 
+XGBoost achieved the best overall performance, but the margin over the linear models was small.
+ 
+## Setup
+ 
+We recommend Python 3.11.
+ 
+### Conda
+ 
+    conda create -n ece1513proj python=3.11 -y
+    conda activate ece1513proj
+    pip install -r requirements.txt
+ 
+## Usage
+ 
+### Step 1. Preprocess the dataset
+ 
     python src/preprocess.py
-    ```
-    *Output*: `data/dataset_clean.csv`, `data/splits/*.csv`
-
-2.  **Run 5-Fold Cross-Validation (Main Evaluation)**:
-    Runs the full validation suite on LogReg, SVM, and XGBoost.
-    ```bash
-    python src/evaluate_cv.py
-    ```
-    *Output*: `results/cv_results.json` and console metrics.
-
-3.  **Generate Report Figures**:
-    Create ROC curves, Confusion Matrices, and SHAP explanation plots.
-    ```bash
+ 
+### Step 2. Run the 10-seed hold-out comparison
+ 
     python src/evaluate_comparison.py
+ 
+### Step 3. Run the final repeated cross-validation evaluation
+ 
+    python src/evaluate_cv.py
+ 
+### Step 4. Generate explainability plots
+ 
     python src/explainability.py
-    ```
-    *Output*: `results/plots/*.png`
-
-
+ 
+## Demo
+ 
+To run a simple end-to-end demo:
+ 
+    bash demo.sh
+ 
+This script:
+- preprocesses the data
+- runs the 10-seed hold-out comparison
+- runs the final repeated cross-validation evaluation
+- prints the saved metrics files
+ 
+## Notes
+ 
+- The repository is intended to reflect the final Kaggle-based version of the project.
+- The old branch based on the earlier dataset should not be used for submission.
