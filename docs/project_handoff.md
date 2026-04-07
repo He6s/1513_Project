@@ -1,4 +1,4 @@
-# Teammate Handoff
+# Project Handoff
 
 ## Final branch
 Use the Kaggle project branch for the final submission version.
