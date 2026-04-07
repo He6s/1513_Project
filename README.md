@@ -99,8 +99,4 @@ This script:
 - runs the 10-seed hold-out comparison
 - runs the final repeated cross-validation evaluation
 - prints the saved metrics files
- 
-## Notes
- 
-- The repository is intended to reflect the final Kaggle-based version of the project.
-- The old branch based on the earlier dataset should not be used for submission.
+
